@@ -32,14 +32,18 @@ public class ItemService {
 
     }
 
+    public Item getItemByIdForUpdate(Long id) {
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
+    }
+
     @Transactional
     public Item createItem(Item item) {
         isNameExist(item.getName());
         return itemRepository.save(item);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Item updateItem(Long id, Item itemDetails) {
         Item item = getItemById(id);
         if (!item.getName().equals(itemDetails.getName())) isNameExist(itemDetails.getName());

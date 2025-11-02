@@ -37,7 +37,6 @@ class InventoryServiceTest {
     private InventoryService inventoryService;
 
     private Inventory inventory;
-    private Item item;
     private InventoryResponse response;
 
     @BeforeEach
@@ -48,7 +47,7 @@ class InventoryServiceTest {
         inventory.setQuantity(10L);
         inventory.setType(InventoryActionType.T);
 
-        item = new Item();
+        Item item = new Item();
         item.setId(1L);
         item.setName("Pen");
         item.setPrice(10.0);
@@ -125,10 +124,12 @@ class InventoryServiceTest {
         req.setQty(10L);
         req.setType(InventoryActionType.W);
         req.setItemId(1L);
-
+        Item item = new Item();
+        item.setId(1L);
         inventory.setType(InventoryActionType.T);
         when(inventoryRepository.findById(1L)).thenReturn(Optional.of(inventory));
         when(inventoryRepository.getCurrentStock(1L)).thenReturn(20L);
+        when(itemService.getItemByIdForUpdate(1L)).thenReturn(item);
         when(inventoryRepository.save(any(Inventory.class))).thenReturn(inventory);
 
         InventoryResponse result = inventoryService.updateInventory(1L, req);

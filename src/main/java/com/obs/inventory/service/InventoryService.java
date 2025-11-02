@@ -1,6 +1,7 @@
 package com.obs.inventory.service;
 
 import com.obs.inventory.entity.Inventory;
+import com.obs.inventory.entity.Item;
 import com.obs.inventory.exception.BadRequestException;
 import com.obs.inventory.exception.ResourceNotFoundException;
 import com.obs.inventory.model.enums.InventoryActionType;
@@ -32,12 +33,14 @@ public class InventoryService {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public InventoryResponse createInventory(InventoryAddRequest req) {
+        Item item = itemService.getItemByIdForUpdate(req.getItemId());
+
         if (req.getType().equals(InventoryActionType.W)){
             isStockEnough(req.getItemId(), req.getQty());
         }
 
         Inventory inventory = new Inventory();
-        inventory.setItem(itemService.getItemById(req.getItemId()));
+        inventory.setItem(item);
         inventory.setQuantity(req.getQty());
         inventory.setType(req.getType());
 
@@ -48,6 +51,7 @@ public class InventoryService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public InventoryResponse updateInventory(Long id, InventoryEditRequest req) {
         Inventory inventory = getInventoryForUpdate(id);
+        Item item = itemService.getItemByIdForUpdate(req.getItemId());
         InventoryActionType oldType = inventory.getType();
         InventoryActionType newType = req.getType();
 
@@ -59,6 +63,7 @@ public class InventoryService {
             isStockEnough(req.getItemId(), req.getQty() - inventory.getQuantity());
         }
 
+        inventory.setItem(item);
         inventory.setQuantity(req.getQty());
         inventory.setType(newType);
         return convertToResponse(inventoryRepository.save(inventory));
