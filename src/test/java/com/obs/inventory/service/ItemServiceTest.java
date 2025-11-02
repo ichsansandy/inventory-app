@@ -3,6 +3,7 @@ package com.obs.inventory.service;
 import com.obs.inventory.entity.Item;
 import com.obs.inventory.exception.BadRequestException;
 import com.obs.inventory.exception.ResourceNotFoundException;
+import com.obs.inventory.model.item.ItemResponse;
 import com.obs.inventory.repository.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,7 @@ class ItemServiceTest {
     private ItemService itemService;
 
     private Item testItem;
+    private ItemResponse testItemResponse;
 
     @BeforeEach
     void setUp() {
@@ -41,6 +43,8 @@ class ItemServiceTest {
         testItem.setId(1L);
         testItem.setName("Pen");
         testItem.setPrice(5.0);
+
+        testItemResponse = new ItemResponse(1L, "Shoes", 99.99, 50L);
     }
 
     @Test
@@ -75,6 +79,38 @@ class ItemServiceTest {
 
         assertThrows(ResourceNotFoundException.class, () -> itemService.getItemById(999L));
         verify(itemRepository, times(1)).findById(999L);
+    }
+
+    @Test
+    void getAllItemsWithStock_ShouldReturnPagedItems() {
+        Pageable pageable = PageRequest.of(0, 10);
+        // Arrange
+        List<ItemResponse> items = List.of(testItemResponse);
+        Page<ItemResponse> itemPage = new PageImpl<>(items, pageable, items.size());
+        when(itemRepository.findAllWithStock(pageable)).thenReturn(itemPage);
+
+        // Act
+        Page<ItemResponse> result = itemService.getAllItemsWithStock(pageable);
+
+        // Assert
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Shoes", result.getContent().get(0).getName());
+        verify(itemRepository, times(1)).findAllWithStock(pageable);
+    }
+
+    @Test
+    void getItemByIdWithStock_WhenItemExists_ShouldReturnItemResponse() {
+        // Arrange
+        when(itemRepository.findByIdWithStock(1L)).thenReturn(Optional.of(testItemResponse));
+
+        // Act
+        ItemResponse result = itemService.getItemByIdWithStock(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Shoes", result.getName());
+        verify(itemRepository, times(1)).findByIdWithStock(1L);
     }
 
     @Test
