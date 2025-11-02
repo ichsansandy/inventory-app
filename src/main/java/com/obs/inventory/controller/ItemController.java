@@ -15,13 +15,13 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/pagination")
-    public ResponseEntity<?> getPaginationItem(Pageable pageable){
-        return ResponseEntity.ok(itemService.getAllItems(pageable));
+    public ResponseEntity<?> getPaginationItem(Pageable pageable, @RequestParam(required = false) boolean isShowStock ){
+        return ResponseEntity.ok(isShowStock ? itemService.getAllItemsWithStock(pageable) : itemService.getAllItems(pageable));
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<?> getDetailItem(@RequestParam Long id){
-        return ResponseEntity.ok(itemService.getItemById(id));
+    public ResponseEntity<?> getDetailItem(@RequestParam Long id, @RequestParam(required = false) boolean isShowStock ){
+        return ResponseEntity.ok(isShowStock ? itemService.getItemByIdWithStock(id) : itemService.getItemById(id));
     }
 
     @PostMapping("/add")
