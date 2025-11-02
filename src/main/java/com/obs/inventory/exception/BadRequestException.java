@@ -1,4 +1,4 @@
-package com.obs.inventory.service;
+package com.obs.inventory.exception;
 
 public class BadRequestException extends RuntimeException{
     public BadRequestException(String message) {

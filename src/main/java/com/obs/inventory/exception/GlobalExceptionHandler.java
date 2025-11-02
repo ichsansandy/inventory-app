@@ -1,8 +1,6 @@
 package com.obs.inventory.exception;
 
 import com.obs.inventory.model.ErrorResponse;
-import com.obs.inventory.service.BadRequestException;
-import com.obs.inventory.service.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,6 +1,8 @@
 package com.obs.inventory.service;
 
 import com.obs.inventory.entity.Item;
+import com.obs.inventory.exception.BadRequestException;
+import com.obs.inventory.exception.ResourceNotFoundException;
 import com.obs.inventory.repository.ItemRepository;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +12,6 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +32,18 @@ public class ItemService {
 
     }
 
+    public Item getItemByIdForUpdate(Long id) {
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
+    }
+
     @Transactional
     public Item createItem(Item item) {
         isNameExist(item.getName());
         return itemRepository.save(item);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Item updateItem(Long id, Item itemDetails) {
         Item item = getItemById(id);
         if (!item.getName().equals(itemDetails.getName())) isNameExist(itemDetails.getName());
