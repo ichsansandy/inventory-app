@@ -27,14 +27,14 @@ public class ItemService {
                 .orElseThrow(() -> new ResourceNotFoundException("Item not found with id: " + id));
     }
 
-    public boolean isNameExist(String name) {
-        return itemRepository.findByName(name).isPresent();
+    public void isNameExist(String name) {
+        if ( itemRepository.findByName(name).isPresent()) throw new BadRequestException("Item already exist with name "+ name);
 
     }
 
     @Transactional
     public Item createItem(Item item) {
-        if (isNameExist(item.getName())) throw new BadRequestException("Item already exist with nane "+ item.getName());
+        isNameExist(item.getName());
         return itemRepository.save(item);
     }
 
@@ -42,10 +42,8 @@ public class ItemService {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     public Item updateItem(Long id, Item itemDetails) {
         Item item = getItemById(id);
-
-        if (isNameExist(item.getName())) throw new BadRequestException("Item already exist with nane "+ item.getName());
+        if (!item.getName().equals(itemDetails.getName())) isNameExist(itemDetails.getName());
         item.setName(itemDetails.getName());
-
         item.setPrice(itemDetails.getPrice());
         return itemRepository.save(item);
     }
