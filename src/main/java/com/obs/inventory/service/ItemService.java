@@ -1,6 +1,8 @@
 package com.obs.inventory.service;
 
 import com.obs.inventory.entity.Item;
+import com.obs.inventory.exception.BadRequestException;
+import com.obs.inventory.exception.ResourceNotFoundException;
 import com.obs.inventory.repository.ItemRepository;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +12,6 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

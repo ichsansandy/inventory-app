@@ -1,6 +1,8 @@
 package com.obs.inventory.service;
 
 import com.obs.inventory.entity.Item;
+import com.obs.inventory.exception.BadRequestException;
+import com.obs.inventory.exception.ResourceNotFoundException;
 import com.obs.inventory.repository.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
