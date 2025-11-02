@@ -15,7 +15,7 @@ public class Inventory {
     @Column(name = "qty")
     private Long quantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
