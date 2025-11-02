@@ -1,6 +1,6 @@
 package com.obs.inventory.entity;
 
-import com.obs.inventory.InventoryActionType;
+import com.obs.inventory.model.enums.InventoryActionType;
 import jakarta.persistence.*;
 import lombok.Data;
 

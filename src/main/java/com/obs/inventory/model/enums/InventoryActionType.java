@@ -1,4 +1,4 @@
-package com.obs.inventory;
+package com.obs.inventory.model.enums;
 
 public enum InventoryActionType {
     T, // Top up

@@ -1,6 +1,6 @@
 package com.obs.inventory.config;
 
-import com.obs.inventory.InventoryActionType;
+import com.obs.inventory.model.enums.InventoryActionType;
 import com.obs.inventory.entity.Inventory;
 import com.obs.inventory.entity.Item;
 import com.obs.inventory.repository.InventoryRepository;
@@ -8,7 +8,6 @@ import com.obs.inventory.repository.ItemRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
