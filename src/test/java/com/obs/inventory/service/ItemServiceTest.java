@@ -15,9 +15,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -138,5 +141,133 @@ class ItemServiceTest {
         assertDoesNotThrow(() -> itemService.isNameExist(name));
 
         verify(itemRepository, times(1)).findByName(name);
+    }
+
+    // --- getAllItems ---
+    @Test
+    void getAllItems_ShouldReturnPagedItems() {
+        Pageable pageable = mock(Pageable.class);
+        Page<Item> page = new PageImpl<>(List.of(testItem));
+
+        when(itemRepository.findAll(pageable)).thenReturn(page);
+
+        Page<Item> result = itemService.getAllItems(pageable);
+
+        assertThat(result.getContent()).hasSize(1);
+        verify(itemRepository).findAll(pageable);
+    }
+
+    // --- getItemById ---
+    @Test
+    void getItemById_WhenFound_ShouldReturnItem() {
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(testItem));
+
+        Item result = itemService.getItemById(1L);
+
+        assertThat(result.getName()).isEqualTo("Pen");
+        verify(itemRepository).findById(1L);
+    }
+
+    @Test
+    void getItemById_WhenNotFound_ShouldThrowException() {
+        when(itemRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () ->
+                itemService.getItemById(1L));
+    }
+
+    @Test
+    void isNameExist_WhenNameNotExists_ShouldDoNothing() {
+        when(itemRepository.findByName("NewItem")).thenReturn(Optional.empty());
+
+        itemService.isNameExist("NewItem");
+
+        verify(itemRepository).findByName("NewItem");
+    }
+
+    // --- getItemByIdForUpdate ---
+    @Test
+    void getItemByIdForUpdate_WhenFound_ShouldReturnItem() {
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(testItem));
+
+        Item result = itemService.getItemByIdForUpdate(1L);
+
+        assertThat(result.getId()).isEqualTo(1L);
+    }
+
+    @Test
+    void getItemByIdForUpdate_WhenNotFound_ShouldThrowException() {
+        when(itemRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () ->
+                itemService.getItemByIdForUpdate(1L));
+    }
+
+    // --- createItem ---
+    @Test
+    void createItem_WhenNameNotExist_ShouldSaveItem() {
+        when(itemRepository.findByName("Pen")).thenReturn(Optional.empty());
+        when(itemRepository.save(any(Item.class))).thenReturn(testItem);
+
+        Item result = itemService.createItem(testItem);
+
+        assertThat(result.getId()).isEqualTo(1L);
+        verify(itemRepository).save(testItem);
+    }
+
+    @Test
+    void createItem_WhenNameExists_ShouldThrowException() {
+        when(itemRepository.findByName("Pen")).thenReturn(Optional.of(testItem));
+
+        assertThrows(BadRequestException.class, () ->
+                itemService.createItem(testItem));
+    }
+
+    // --- updateItem ---
+    @Test
+    void updateItem_WhenNameChangedAndNotExist_ShouldUpdate() {
+        Item itemDetails = new Item();
+        itemDetails.setName("New Laptop");
+        itemDetails.setPrice(2000d);
+
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(testItem));
+        when(itemRepository.findByName("New Laptop")).thenReturn(Optional.empty());
+        when(itemRepository.save(any(Item.class))).thenReturn(testItem);
+
+        Item result = itemService.updateItem(1L, itemDetails);
+
+        assertThat(result.getPrice()).isEqualTo(2000d); // your service returns saved item
+        verify(itemRepository).save(any(Item.class));
+    }
+
+    @Test
+    void updateItem_WhenNameChangedAndAlreadyExists_ShouldThrowException() {
+        Item itemDetails = new Item();
+        itemDetails.setName("Existing");
+        itemDetails.setPrice(999D);
+
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(testItem));
+        when(itemRepository.findByName("Existing")).thenReturn(Optional.of(new Item()));
+
+        assertThrows(BadRequestException.class, () ->
+                itemService.updateItem(1L, itemDetails));
+    }
+
+    // --- deleteItem ---
+    @Test
+    void deleteItem_WhenFound_ShouldDelete() {
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(testItem));
+
+        itemService.deleteItem(1L);
+
+        verify(itemRepository).delete(testItem);
+    }
+
+    @Test
+    void deleteItem_WhenNotFound_ShouldThrowException() {
+        when(itemRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () ->
+                itemService.deleteItem(1L));
     }
 }
