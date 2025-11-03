@@ -31,6 +31,12 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
             FROM Inventory inv
             WHERE inv.item.id = i.id
         ), 0)
+        -
+        COALESCE((
+            SELECT SUM(o.quantity)
+            FROM Orders o
+            WHERE o.item.id = i.id
+        ), 0)
     )
     FROM Item i
 """)
@@ -47,6 +53,12 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
                 )
                 FROM Inventory inv
                 WHERE inv.item.id = i.id
+            ), 0)
+            -
+            COALESCE((
+                SELECT SUM(o.quantity)
+                FROM Orders o
+                WHERE o.item.id = i.id
             ), 0)
         )
         FROM Item i

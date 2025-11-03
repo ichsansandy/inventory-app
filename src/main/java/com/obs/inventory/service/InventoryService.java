@@ -9,6 +9,7 @@ import com.obs.inventory.model.inventory.InventoryAddRequest;
 import com.obs.inventory.model.inventory.InventoryEditRequest;
 import com.obs.inventory.model.inventory.InventoryResponse;
 import com.obs.inventory.repository.InventoryRepository;
+import com.obs.inventory.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class InventoryService {
     private final InventoryRepository inventoryRepository;
+    private final OrdersRepository ordersRepository;
     private final ItemService itemService;
 
     public Page<InventoryResponse> getAllInventory(Pageable pageable) {
@@ -80,7 +82,9 @@ public class InventoryService {
     }
 
     public Long calculateStock(Long itemId){
-        return inventoryRepository.getCurrentStock(itemId);
+        Long inventoryStock = inventoryRepository.getCurrentStock(itemId);
+        Long orderedQty = ordersRepository.getTotalOrderedQty(itemId);
+        return inventoryStock - orderedQty;
     }
 
     public void isStockEnough(Long itemId, Long qty){

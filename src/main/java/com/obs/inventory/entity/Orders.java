@@ -3,15 +3,14 @@ package com.obs.inventory.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "orders")
-public class Order {
+public class Orders {
     @Id
-    @Column(name = "order_no")
+    @Column(name = "order_no", length = 20)
     private String orderNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -19,7 +18,7 @@ public class Order {
     private Item item;
 
     @Column(nullable = false, name = "qty")
-    private Integer quantity;
+    private Long quantity;
 
     @Column(nullable = false)
     private Double price;
