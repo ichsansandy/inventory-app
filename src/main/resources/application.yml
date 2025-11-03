@@ -24,6 +24,9 @@ spring:
 
   jackson:
     default-property-inclusion: non_null
+  sql:
+    init:
+      mode: always
 
 server:
   port: 8080

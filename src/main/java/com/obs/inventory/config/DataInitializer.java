@@ -1,10 +1,13 @@
 package com.obs.inventory.config;
 
+import com.obs.inventory.entity.Order;
 import com.obs.inventory.model.enums.InventoryActionType;
 import com.obs.inventory.entity.Inventory;
 import com.obs.inventory.entity.Item;
 import com.obs.inventory.repository.InventoryRepository;
 import com.obs.inventory.repository.ItemRepository;
+import com.obs.inventory.repository.OrderRepository;
+import com.obs.inventory.util.OrderIdGenerator;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import java.util.List;
 public class DataInitializer {
     private final ItemRepository itemRepository;
     private final InventoryRepository inventoryRepository;
+    private final OrderRepository orderRepository;
 
     @PostConstruct
     public void initializeData() {
@@ -27,7 +31,8 @@ public class DataInitializer {
         log.info("Loaded {} items", items.size());
         List<Inventory> inventory = loadInventory(items);
         log.info("Loaded {} inventory", inventory.size());
-
+        List<Order> orders = loadOrders(items);
+        log.info("Loaded {} orders", orders.size());
     }
 
     private List<Item> loadItems() {
@@ -137,5 +142,82 @@ public class DataInitializer {
         inventoryList.add(nine);
 
         return inventoryRepository.saveAll(inventoryList);
+    }
+
+    private List<Order> loadOrders(List<Item> items){
+        List<Order> orders = new ArrayList<>();
+        // 1 item 1 qty 2
+        Order order = new Order();
+        order.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order.setItem(items.get(1-1));
+        order.setQuantity(2);
+        order.setPrice(items.get(1-1).getPrice());
+        orders.add(order);
+        orderRepository.save(order);
+        // 2 item 2 qty 3
+        Order order2 = new Order();
+        order2.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order2.setItem(items.get(2-1));
+        order2.setQuantity(3);
+        order2.setPrice(items.get(2-1).getPrice());
+        orders.add(order2);
+        // 3 item 5 qty 4
+        Order order3 = new Order();
+        order3.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order3.setItem(items.get(5-1));
+        order3.setQuantity(4);
+        order3.setPrice(items.get(5-1).getPrice());
+        orders.add(order3);
+        // 4 item 4 qty 1
+        Order order4 = new Order();
+        order4.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order4.setItem(items.get(4-1));
+        order4.setQuantity(1);
+        order4.setPrice(items.get(4-1).getPrice());
+        orders.add(order4);
+        // 5 item 5 qty 2
+        Order order5 = new Order();
+        order5.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order5.setItem(items.get(5-1));
+        order5.setQuantity(2);
+        order5.setPrice(items.get(5-1).getPrice());
+        orders.add(order5);
+        // 6 item 6 qty 3
+        Order order6 = new Order();
+        order6.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order6.setItem(items.get(6-1));
+        order6.setQuantity(3);
+        order6.setPrice(items.get(6-1).getPrice());
+        orders.add(order6);
+        // 7 item 1 qty 5
+        Order order7 = new Order();
+        order7.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order7.setItem(items.get(1-1));
+        order7.setQuantity(5);
+        order7.setPrice(items.get(1-1).getPrice());
+        orders.add(order7);
+        // 8 item 2 qty 4
+        Order order8 =  new Order();
+        order8.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order8.setItem(items.get(2-1));
+        order8.setQuantity(4);
+        order8.setPrice(items.get(2-1).getPrice());
+        orders.add(order8);
+        // 9 item 3 qty 2
+        Order order9 = new Order();
+        order9.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order9.setItem(items.get(3-1));
+        order9.setQuantity(2);
+        order9.setPrice(items.get(3-1).getPrice());
+        orders.add(order9);
+        // 10 item 4 qty 3
+        Order order10 = new Order();
+        order10.setOrderNo(OrderIdGenerator.generateOrderId(orderRepository.getNextOrderNo()));
+        order10.setItem(items.get(4-1));
+        order10.setQuantity(3);
+        order10.setPrice(items.get(4-1).getPrice());
+        orders.add(order10);
+
+        return orderRepository.saveAll(orders);
     }
 }
