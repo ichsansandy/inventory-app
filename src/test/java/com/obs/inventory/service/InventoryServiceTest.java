@@ -9,6 +9,7 @@ import com.obs.inventory.model.inventory.InventoryAddRequest;
 import com.obs.inventory.model.inventory.InventoryEditRequest;
 import com.obs.inventory.model.inventory.InventoryResponse;
 import com.obs.inventory.repository.InventoryRepository;
+import com.obs.inventory.repository.OrdersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +30,9 @@ class InventoryServiceTest {
 
     @Mock
     private InventoryRepository inventoryRepository;
+
+    @Mock
+    private OrdersRepository ordersRepository;
 
     @Mock
     private ItemService itemService;
