@@ -1,0 +1,1824 @@
+{
+	"info": {
+		"_postman_id": "9e6589c3-fb90-4ccf-9ea5-6dcfa74426d8",
+		"name": "OBS Solution",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23641941"
+	},
+	"item": [
+		{
+			"name": "Inventory App Test",
+			"item": [
+				{
+					"name": "Item Service",
+					"item": [
+						{
+							"name": "pagination",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Validate Spring Boot pagination response structure\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\r",
+											"        \"content\",\r",
+											"        \"pageable\",\r",
+											"        \"totalPages\",\r",
+											"        \"totalElements\",\r",
+											"        \"last\",\r",
+											"        \"size\",\r",
+											"        \"number\",\r",
+											"        \"sort\",\r",
+											"        \"first\",\r",
+											"        \"numberOfElements\",\r",
+											"        \"empty\"\r",
+											"    ]);\r",
+											"\r",
+											"    // Check content array\r",
+											"    pm.expect(res.content).to.be.an(\"array\");\r",
+											"\r",
+											"    // Check pageable object\r",
+											"    pm.expect(res.pageable).to.be.an(\"object\");\r",
+											"    pm.expect(res.pageable).to.have.keys([\r",
+											"        \"pageNumber\",\r",
+											"        \"pageSize\",\r",
+											"        \"sort\",\r",
+											"        \"offset\",\r",
+											"        \"paged\",\r",
+											"        \"unpaged\"\r",
+											"    ]);\r",
+											"    pm.expect(res.pageable.pageNumber).to.be.a(\"number\");\r",
+											"    pm.expect(res.pageable.pageSize).to.be.a(\"number\");\r",
+											"\r",
+											"    // Check sort object\r",
+											"    pm.expect(res.sort).to.be.an(\"object\");\r",
+											"    pm.expect(res.sort).to.have.keys([\"empty\", \"sorted\", \"unsorted\"]);\r",
+											"    pm.expect(res.sort.sorted).to.be.a(\"boolean\");\r",
+											"\r",
+											"    // Pagination values\r",
+											"    pm.expect(res.totalPages).to.be.a(\"number\");\r",
+											"    pm.expect(res.totalElements).to.be.a(\"number\");\r",
+											"    pm.expect(res.size).to.be.a(\"number\");\r",
+											"    pm.expect(res.number).to.be.a(\"number\");\r",
+											"\r",
+											"    // Boolean flags\r",
+											"    [\"first\", \"last\", \"empty\"].forEach(key => {\r",
+											"        pm.expect(res[key]).to.be.a(\"boolean\");\r",
+											"    });\r",
+											"\r",
+											"    // Optional deeper validation if content not empty\r",
+											"    if (res.content.length > 0) {\r",
+											"        const firstItem = res.content[0];\r",
+											"        pm.expect(firstItem).to.be.an(\"object\");\r",
+											"        pm.expect(firstItem).to.have.property(\"id\"); // adjust based on your entity\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/pagination",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"pagination"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pagination sort most expensive",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Validate Spring Boot pagination response structure\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\r",
+											"        \"content\",\r",
+											"        \"pageable\",\r",
+											"        \"totalPages\",\r",
+											"        \"totalElements\",\r",
+											"        \"last\",\r",
+											"        \"size\",\r",
+											"        \"number\",\r",
+											"        \"sort\",\r",
+											"        \"first\",\r",
+											"        \"numberOfElements\",\r",
+											"        \"empty\"\r",
+											"    ]);\r",
+											"\r",
+											"    // Check content array\r",
+											"    pm.expect(res.content).to.be.an(\"array\");\r",
+											"\r",
+											"    // Check pageable object\r",
+											"    pm.expect(res.pageable).to.be.an(\"object\");\r",
+											"    pm.expect(res.pageable).to.have.keys([\r",
+											"        \"pageNumber\",\r",
+											"        \"pageSize\",\r",
+											"        \"sort\",\r",
+											"        \"offset\",\r",
+											"        \"paged\",\r",
+											"        \"unpaged\"\r",
+											"    ]);\r",
+											"    pm.expect(res.pageable.pageNumber).to.be.a(\"number\");\r",
+											"    pm.expect(res.pageable.pageSize).to.be.a(\"number\");\r",
+											"\r",
+											"    // Check sort object\r",
+											"    pm.expect(res.sort).to.be.an(\"object\");\r",
+											"    pm.expect(res.sort).to.have.keys([\"empty\", \"sorted\", \"unsorted\"]);\r",
+											"    pm.expect(res.sort.sorted).to.be.a(\"boolean\");\r",
+											"\r",
+											"    // Pagination values\r",
+											"    pm.expect(res.totalPages).to.be.a(\"number\");\r",
+											"    pm.expect(res.totalElements).to.be.a(\"number\");\r",
+											"    pm.expect(res.size).to.be.a(\"number\");\r",
+											"    pm.expect(res.number).to.be.a(\"number\");\r",
+											"\r",
+											"    // Boolean flags\r",
+											"    [\"first\", \"last\", \"empty\"].forEach(key => {\r",
+											"        pm.expect(res[key]).to.be.a(\"boolean\");\r",
+											"    });\r",
+											"\r",
+											"    // Optional deeper validation if content not empty\r",
+											"    if (res.content.length > 0) {\r",
+											"        const firstItem = res.content[0];\r",
+											"        pm.expect(firstItem).to.be.an(\"object\");\r",
+											"        pm.expect(firstItem).to.have.property(\"id\"); // adjust based on your entity\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Shoe will be the first if sort with price\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    pm.expect(res.content).to.be.an(\"array\");\r",
+											"    pm.expect(res.content.length).to.be.above(0);\r",
+											"\r",
+											"    pm.expect(res.content[0].name.toLowerCase()).to.equal(\"shoe\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/pagination?sort=price,desc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"pagination"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "price,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail not found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 404 when item not found\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(404);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(404);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Item not found\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/detail?id=12",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and valid item when found\", function () {\r",
+											"    // Check HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"name\", \"price\"]);\r",
+											"\r",
+											"    // Validate data types\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.name).to.be.a(\"string\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"\r",
+											"    // Optional: check specific value (if you queried item with id 12)\r",
+											"    pm.expect(res.id).to.equal(1);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/detail?id=1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should create item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(201);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"name\", \"price\"]);\r",
+											"\r",
+											"    // Field type validation\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.name).to.be.a(\"string\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.name) pm.expect(res.name).to.equal(req.name);\r",
+											"        if (req.price) pm.expect(res.price).to.equal(req.price);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"JUNGLE\",\r\n    \"price\":390.1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/item/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add item already exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 400 when item name already exiust\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(400);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(400);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Item already exist with name\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"JUNGLE\",\r\n    \"price\":390.1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/item/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ediit",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should edit item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"name\", \"price\"]);\r",
+											"\r",
+											"    // Field type validation\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.name).to.be.a(\"string\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.name) pm.expect(res.name).to.equal(req.name);\r",
+											"        if (req.price) pm.expect(res.price).to.equal(req.price);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"EDITTEST\",\r\n    \"price\":390.1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/item/edit?id=8",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit validation name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 400 when item name already exiust\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(400);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(400);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Item already exist with name\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Book\",\r\n    \"price\":390.1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/item/edit?id=1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Delete Item \", function () {\r",
+											"    // Status code check\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    // Ensure empty response body\r",
+											"    pm.expect(pm.response.text()).to.eql(\"Success Delete Item\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/delete?id=8",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete not found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 404 when item not found\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(404);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(404);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Item not found\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/delete?id=14",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "14"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pagination with stock",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Validate Spring Boot pagination response structure\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\r",
+											"        \"content\",\r",
+											"        \"pageable\",\r",
+											"        \"totalPages\",\r",
+											"        \"totalElements\",\r",
+											"        \"last\",\r",
+											"        \"size\",\r",
+											"        \"number\",\r",
+											"        \"sort\",\r",
+											"        \"first\",\r",
+											"        \"numberOfElements\",\r",
+											"        \"empty\"\r",
+											"    ]);\r",
+											"\r",
+											"    // Check content array\r",
+											"    pm.expect(res.content).to.be.an(\"array\");\r",
+											"\r",
+											"    // Check pageable object\r",
+											"    pm.expect(res.pageable).to.be.an(\"object\");\r",
+											"    pm.expect(res.pageable).to.have.keys([\r",
+											"        \"pageNumber\",\r",
+											"        \"pageSize\",\r",
+											"        \"sort\",\r",
+											"        \"offset\",\r",
+											"        \"paged\",\r",
+											"        \"unpaged\"\r",
+											"    ]);\r",
+											"    pm.expect(res.pageable.pageNumber).to.be.a(\"number\");\r",
+											"    pm.expect(res.pageable.pageSize).to.be.a(\"number\");\r",
+											"\r",
+											"    // Check sort object\r",
+											"    pm.expect(res.sort).to.be.an(\"object\");\r",
+											"    pm.expect(res.sort).to.have.keys([\"empty\", \"sorted\", \"unsorted\"]);\r",
+											"    pm.expect(res.sort.sorted).to.be.a(\"boolean\");\r",
+											"\r",
+											"    // Pagination values\r",
+											"    pm.expect(res.totalPages).to.be.a(\"number\");\r",
+											"    pm.expect(res.totalElements).to.be.a(\"number\");\r",
+											"    pm.expect(res.size).to.be.a(\"number\");\r",
+											"    pm.expect(res.number).to.be.a(\"number\");\r",
+											"\r",
+											"    // Boolean flags\r",
+											"    [\"first\", \"last\", \"empty\"].forEach(key => {\r",
+											"        pm.expect(res[key]).to.be.a(\"boolean\");\r",
+											"    });\r",
+											"\r",
+											"    // Optional deeper validation if content not empty\r",
+											"    if (res.content.length > 0) {\r",
+											"        const firstItem = res.content[0];\r",
+											"        pm.expect(firstItem).to.be.an(\"object\");\r",
+											"        pm.expect(firstItem).to.have.property(\"id\"); // adjust based on your entity\r",
+											"        pm.expect(firstItem).to.have.property(\"stock\"); // adjust based on your entity\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/pagination?isShowStock=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"pagination"
+									],
+									"query": [
+										{
+											"key": "isShowStock",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail with stock",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and valid item when found\", function () {\r",
+											"    // Check HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"name\", \"price\",\"stock\"]);\r",
+											"\r",
+											"    // Validate data types\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.name).to.be.a(\"string\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"    pm.expect(res.stock).to.be.a(\"number\");\r",
+											"\r",
+											"    // Optional: check specific value (if you queried item with id 12)\r",
+											"    pm.expect(res.id).to.equal(3);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/detail?isShowStock=true&id=3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "isShowStock",
+											"value": "true"
+										},
+										{
+											"key": "id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Inventory Service",
+					"item": [
+						{
+							"name": "pagination",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Validate Spring Boot pagination response structure\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\r",
+											"        \"content\",\r",
+											"        \"pageable\",\r",
+											"        \"totalPages\",\r",
+											"        \"totalElements\",\r",
+											"        \"last\",\r",
+											"        \"size\",\r",
+											"        \"number\",\r",
+											"        \"sort\",\r",
+											"        \"first\",\r",
+											"        \"numberOfElements\",\r",
+											"        \"empty\"\r",
+											"    ]);\r",
+											"\r",
+											"    // Check content array\r",
+											"    pm.expect(res.content).to.be.an(\"array\");\r",
+											"\r",
+											"    // Check pageable object\r",
+											"    pm.expect(res.pageable).to.be.an(\"object\");\r",
+											"    pm.expect(res.pageable).to.have.keys([\r",
+											"        \"pageNumber\",\r",
+											"        \"pageSize\",\r",
+											"        \"sort\",\r",
+											"        \"offset\",\r",
+											"        \"paged\",\r",
+											"        \"unpaged\"\r",
+											"    ]);\r",
+											"    pm.expect(res.pageable.pageNumber).to.be.a(\"number\");\r",
+											"    pm.expect(res.pageable.pageSize).to.be.a(\"number\");\r",
+											"\r",
+											"    // Check sort object\r",
+											"    pm.expect(res.sort).to.be.an(\"object\");\r",
+											"    pm.expect(res.sort).to.have.keys([\"empty\", \"sorted\", \"unsorted\"]);\r",
+											"    pm.expect(res.sort.sorted).to.be.a(\"boolean\");\r",
+											"\r",
+											"    // Pagination values\r",
+											"    pm.expect(res.totalPages).to.be.a(\"number\");\r",
+											"    pm.expect(res.totalElements).to.be.a(\"number\");\r",
+											"    pm.expect(res.size).to.be.a(\"number\");\r",
+											"    pm.expect(res.number).to.be.a(\"number\");\r",
+											"\r",
+											"    // Boolean flags\r",
+											"    [\"first\", \"last\", \"empty\"].forEach(key => {\r",
+											"        pm.expect(res[key]).to.be.a(\"boolean\");\r",
+											"    });\r",
+											"\r",
+											"    // Optional deeper validation if content not empty\r",
+											"    if (res.content.length > 0) {\r",
+											"        const firstItem = res.content[0];\r",
+											"        pm.expect(firstItem).to.be.an(\"object\");\r",
+											"        pm.expect(firstItem).to.have.property(\"id\"); // adjust based on your entity\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/pagination",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"pagination"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and valid item when found\", function () {\r",
+											"    // Check HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"item_id\", \"qty\",\"type\"]);\r",
+											"\r",
+											"    // Validate data types\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.item_id).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect([\"T\", \"W\"]).to.include(res.type);\r",
+											"\r",
+											"    // Optional: check specific value (if you queried item with id 12)\r",
+											"    pm.expect(res.id).to.equal(1);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/detail?id=1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail not found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 404 when item not found\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(404);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(404);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Inventory not found\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/detail?id=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add top up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should create item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(201);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"item_id\", \"qty\",\"type\"]);\r",
+											"\r",
+											"    // Validate data types\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.item_id).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect([\"T\", \"W\"]).to.include(res.type);\r",
+											"\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.qty) pm.expect(res.qty).to.equal(req.qty);\r",
+											"        if (req.type) pm.expect(res.type).to.equal(req.type);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"itemId\":1,\r\n    \"qty\":20,\r\n    \"type\":\"T\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add withdraw stock not enough",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should throw stock not enough\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(400);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Stock not enough\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"itemId\":1,\r\n    \"qty\":200,\r\n    \"type\":\"W\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add withdraw success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should create item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(201);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"item_id\", \"qty\",\"type\"]);\r",
+											"\r",
+											"    // Validate data types\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.item_id).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect([\"T\", \"W\"]).to.include(res.type);\r",
+											"\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.qty) pm.expect(res.qty).to.equal(req.qty);\r",
+											"        if (req.type) pm.expect(res.type).to.equal(req.type);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"itemId\":1,\r\n    \"qty\":1,\r\n    \"type\":\"W\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should edit item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"id\", \"item_id\", \"qty\",\"type\"]);\r",
+											"\r",
+											"     // Validate data types\r",
+											"    pm.expect(res.id).to.be.a(\"number\");\r",
+											"    pm.expect(res.item_id).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect([\"T\", \"W\"]).to.include(res.type);\r",
+											"\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.qty) pm.expect(res.qty).to.equal(req.qty);\r",
+											"        if (req.type) pm.expect(res.type).to.equal(req.type);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"itemId\":4,\r\n    \"qty\":1,\r\n    \"type\":\"W\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/edit?id=8",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Delete Item \", function () {\r",
+											"    // Status code check\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    // Ensure empty response body\r",
+											"    pm.expect(pm.response.text()).to.eql(\"Success Delete Inventory\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventory/delete?id=11",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventory",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete not found Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 404 when item not found\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(404);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(404);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Item not found\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/item/delete?id=11",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"item",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order Service",
+					"item": [
+						{
+							"name": "pagination",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Validate Spring Boot pagination response structure\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\r",
+											"        \"content\",\r",
+											"        \"pageable\",\r",
+											"        \"totalPages\",\r",
+											"        \"totalElements\",\r",
+											"        \"last\",\r",
+											"        \"size\",\r",
+											"        \"number\",\r",
+											"        \"sort\",\r",
+											"        \"first\",\r",
+											"        \"numberOfElements\",\r",
+											"        \"empty\"\r",
+											"    ]);\r",
+											"\r",
+											"    // Check content array\r",
+											"    pm.expect(res.content).to.be.an(\"array\");\r",
+											"\r",
+											"    // Check pageable object\r",
+											"    pm.expect(res.pageable).to.be.an(\"object\");\r",
+											"    pm.expect(res.pageable).to.have.keys([\r",
+											"        \"pageNumber\",\r",
+											"        \"pageSize\",\r",
+											"        \"sort\",\r",
+											"        \"offset\",\r",
+											"        \"paged\",\r",
+											"        \"unpaged\"\r",
+											"    ]);\r",
+											"    pm.expect(res.pageable.pageNumber).to.be.a(\"number\");\r",
+											"    pm.expect(res.pageable.pageSize).to.be.a(\"number\");\r",
+											"\r",
+											"    // Check sort object\r",
+											"    pm.expect(res.sort).to.be.an(\"object\");\r",
+											"    pm.expect(res.sort).to.have.keys([\"empty\", \"sorted\", \"unsorted\"]);\r",
+											"    pm.expect(res.sort.sorted).to.be.a(\"boolean\");\r",
+											"\r",
+											"    // Pagination values\r",
+											"    pm.expect(res.totalPages).to.be.a(\"number\");\r",
+											"    pm.expect(res.totalElements).to.be.a(\"number\");\r",
+											"    pm.expect(res.size).to.be.a(\"number\");\r",
+											"    pm.expect(res.number).to.be.a(\"number\");\r",
+											"\r",
+											"    // Boolean flags\r",
+											"    [\"first\", \"last\", \"empty\"].forEach(key => {\r",
+											"        pm.expect(res[key]).to.be.a(\"boolean\");\r",
+											"    });\r",
+											"\r",
+											"    // Optional deeper validation if content not empty\r",
+											"    if (res.content.length > 0) {\r",
+											"        const firstItem = res.content[0];\r",
+											"        pm.expect(firstItem).to.be.an(\"object\");\r",
+											"        pm.expect(firstItem).to.have.property(\"orderNo\"); // adjust based on your entity\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order/pagination",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"pagination"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail not found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Should return 404 when item not found\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(404);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"status\", \"message\", \"timestamp\"]);\r",
+											"\r",
+											"    // Check status value\r",
+											"    pm.expect(res.status).to.equal(404);\r",
+											"\r",
+											"    // Message should contain 'Item not found'\r",
+											"    pm.expect(res.message).to.include(\"Order not found\");\r",
+											"\r",
+											"    // Optional: check that timestamp is a valid ISO date\r",
+											"    pm.expect(() => new Date(res.timestamp)).not.to.throw;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order/detail?orderNo=12",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "orderNo",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should create item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(201);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"orderNo\",\"itemId\",\"qty\",\"price\"]);\r",
+											"\r",
+											"    // Field type validation\r",
+											"    pm.expect(res.orderNo).to.be.a(\"string\");\r",
+											"    pm.expect(res.itemId).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.name) pm.expect(res.name).to.equal(req.name);\r",
+											"        if (req.price) pm.expect(res.price).to.equal(req.price);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"itemId\":3,\r\n    \"quantity\":8\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/order/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ediit",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should edit item successfully\", function () {\r",
+											"    // Verify HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"orderNo\",\"itemId\",\"qty\",\"price\"]);\r",
+											"\r",
+											"    // Field type validation\r",
+											"    pm.expect(res.orderNo).to.be.a(\"string\");\r",
+											"    pm.expect(res.itemId).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"    // Optional: check values from the request body\r",
+											"    const requestBody = pm.request.body ? pm.request.body.raw : null;\r",
+											"    if (requestBody) {\r",
+											"        const req = JSON.parse(requestBody);\r",
+											"        if (req.name) pm.expect(res.name).to.equal(req.name);\r",
+											"        if (req.price) pm.expect(res.price).to.equal(req.price);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"itemId\":3,\r\n    \"quantity\":8\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/order/edit?orderNo=O11",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "orderNo",
+											"value": "O11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Success Delete Item \", function () {\r",
+											"    // Status code check\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    // Ensure empty response body\r",
+											"    pm.expect(pm.response.text()).to.eql(\"Success Delete Order\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order/delete?orderNo=O11",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "orderNo",
+											"value": "O11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 200 and valid item when found\", function () {\r",
+											"    // Check HTTP status\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    const res = pm.response.json();\r",
+											"\r",
+											"    // Basic structure check\r",
+											"    pm.expect(res).to.be.an(\"object\");\r",
+											"    pm.expect(res).to.have.keys([\"orderNo\", \"itemId\", \"qty\", \"price\"]);\r",
+											"\r",
+											"    // Validate data types\r",
+											"    pm.expect(res.orderNo).to.be.a(\"string\");\r",
+											"    pm.expect(res.itemId).to.be.a(\"number\");\r",
+											"    pm.expect(res.qty).to.be.a(\"number\");\r",
+											"    pm.expect(res.price).to.be.a(\"number\");\r",
+											"\r",
+											"    // Optional: check specific value (if you queried item with id 12)\r",
+											"    pm.expect(res.orderNo).to.equal(\"O2\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/order/detail?orderNo=O2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"detail"
+									],
+									"query": [
+										{
+											"key": "orderNo",
+											"value": "O2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

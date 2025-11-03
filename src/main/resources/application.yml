@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: inventory
+
+  datasource:
+    url: jdbc:h2:mem:inventorydb
+    driver-class-name: org.h2.Driver
+    username: obs-inventory-db
+    password: supersecretpassword
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    default-property-inclusion: non_null
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
