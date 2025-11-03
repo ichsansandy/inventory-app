@@ -2,11 +2,13 @@ package com.obs.inventory.model.order;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
 public class OrderResponse {
     private String orderNo;
     private Long itemId;
